@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
-import ProductService from '@/services/product';
+import ProductService from '@/service/product';
 const productService = new ProductService();
 
 export const useProductStore = defineStore('product', () => {
@@ -15,5 +15,10 @@ export const useProductStore = defineStore('product', () => {
     products.value = await productService.getProductByCategory(category_id);
   }
 
-  return { products, getProducts, getProductsByCategory };
+  async function createProduct(product) {
+    await productService.createProduct(product);
+    getProducts();
+  }
+
+  return { products, createProduct, getProducts, getProductsByCategory };
 });
